@@ -1,3 +1,5 @@
+#pragma once
+
 #define SENS_WELL_LOW  2
 #define SENS_WELL_MID  3
 #define SENS_WELL_HIGH 4
@@ -13,6 +15,7 @@
 #define RELAY_VALVE_OUT  15
 #define RELAY_PUMP 16
 
-#define MODE_AUTO 0
+#define MODE_OFF  0
 #define MODE_TANK 1
 #define MODE_OUT  2
+#define MODE_AUTO 3
