@@ -11,6 +11,8 @@ private:
 	WaterSensor* _tankWaterSensor;
 	WaterSensor* _wellWaterSensor;
 	Relay* _pumpRelay;
-	unsigned long _waitingStartTime;
 	bool _waitingToFill = false;
+	unsigned long _waitingStartTime;
+	bool _overemptying = false;
+	unsigned long _overemptyingStartTime;
 };
