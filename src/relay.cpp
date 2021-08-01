@@ -20,3 +20,7 @@ void Relay::Deactivate() {
 	this->_isActive = false;
 	digitalWrite(this->_pin, this->_deactivationSignal);
 }
+
+bool Relay::IsActive() {
+	return this->_isActive;
+}
