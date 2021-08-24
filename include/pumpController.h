@@ -3,9 +3,9 @@
 #include "waterSensor.h"
 #include "relay.h"
 
-class Controller {
+class PumpController {
 public:
-	Controller(WaterSensor* tankWaterSensor, WaterSensor* wellWaterSensor, Relay* pumpRelay);
+	PumpController(WaterSensor* tankWaterSensor, WaterSensor* wellWaterSensor, Relay* pumpRelay);
 	void Step();
 private:
 	WaterSensor* _tankWaterSensor;

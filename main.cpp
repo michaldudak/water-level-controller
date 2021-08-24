@@ -2,25 +2,32 @@
 #include "include/constants.h"
 #include "include/waterSensor.h"
 #include "include/relay.h"
-#include "include/controller.h"
+#include "include/pumpController.h"
+#include "include/valveController.h"
+#include "include/safetyGuard.h"
 
 const unsigned int STEP_DELAY = 10 * 1000; // 10 seconds;
 
-Controller* controller;
+PumpController* pumpController;
+ValveController* valveController;
+SafetyGuard* safetyGuard;
 
 void setup() {
 	WaterSensor* wellSensor = new WaterSensor(SENS_WELL_LOW, SENS_WELL_MID, SENS_WELL_HIGH);
 	WaterSensor* tankSensor = new WaterSensor(SENS_TANK_LOW, SENS_TANK_MID, SENS_TANK_HIGH);
 
 	Relay* pumpRelay = new Relay(RELAY_PUMP);
-	/* TODO: to be added later
 	Relay* tankValveRelay = new Relay(RELAY_VALVE_TANK);
-	Relay* outValveRelay = new Relay(RELAY_VALVE_OUT); */
+	Relay* outValveRelay = new Relay(RELAY_VALVE_OUT);
 
-	controller = new Controller(tankSensor, wellSensor, pumpRelay);
+	pumpController = new PumpController(tankSensor, wellSensor, pumpRelay);
+	valveController = new ValveController(tankSensor, wellSensor, pumpRelay, tankValveRelay, outValveRelay);
+	safetyGuard = new SafetyGuard(pumpRelay, tankValveRelay, outValveRelay);
 }
 
 void loop() {
-	controller->Step();
+	pumpController->Step();
+	valveController->Step();
+	safetyGuard->EnsureWaterFlow();
 	delay(STEP_DELAY);
 }

@@ -17,11 +17,16 @@ public:
 	 */
 	WaterSensor(byte lowLevelPin, byte midLevelPin, byte highLevelPin);
 	WaterLevel ReadLevel();
+	WaterLevel GetPreviousLevel();
 
 private:
 	byte _lowPin;
 	byte _midPin;
 	byte _highPin;
 	byte _signal;
+	WaterLevel _lastReading;
+	WaterLevel _previousLevel;
+
+	WaterLevel GetCurrentReading();
 };
 

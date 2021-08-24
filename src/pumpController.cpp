@@ -1,18 +1,18 @@
 #include <arduino.h>
-#include "../include/controller.h"
+#include "../include/pumpController.h"
 #include "../include/waterSensor.h"
 #include "../include/relay.h"
 
 const unsigned long WAIT_TIME = 60 * 60 * 1000UL; // 60 minutes
 const unsigned long OVEREMPTYING_TIME = 2 * 60 * 1000UL; // 2 minutes
 
-Controller::Controller(WaterSensor* tankWaterSensor, WaterSensor* wellWaterSensor, Relay* pumpRelay) {
+PumpController::PumpController(WaterSensor* tankWaterSensor, WaterSensor* wellWaterSensor, Relay* pumpRelay) {
 	_tankWaterSensor = tankWaterSensor;
 	_wellWaterSensor = wellWaterSensor;
 	_pumpRelay = pumpRelay;
 }
 
-void Controller::Step() {
+void PumpController::Step() {
 	WaterLevel tankLevel = _tankWaterSensor->ReadLevel();
 	WaterLevel wellLevel = _wellWaterSensor->ReadLevel();
 
@@ -34,6 +34,11 @@ void Controller::Step() {
 			break;
 
 		case WaterLevel::Low:
+			if (tankLevel == WaterLevel::High || tankLevel == WaterLevel::Full) {
+				// no need to pour the water out frequently
+				break;
+			}
+
 			// If water level is low, wait for WAIT_TIME before activating the pump to avoid
 			// turning it on frequently for short periods.
 			if (!_waitingToFill) {
