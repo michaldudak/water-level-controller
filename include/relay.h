@@ -1,4 +1,5 @@
 #pragma once
+#include <arduino.h>
 
 class Relay {
 public:

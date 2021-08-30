@@ -34,12 +34,20 @@ void PumpController::Step() {
 			break;
 
 		case WaterLevel::Low:
-			if (tankLevel == WaterLevel::High || tankLevel == WaterLevel::Full) {
-				// no need to pour the water out frequently
+			if (tankLevel == WaterLevel::High) {
+				// Pump will be started when well water level is higher.
 				break;
 			}
 
-			// If water level is low, wait for WAIT_TIME before activating the pump to avoid
+			if (tankLevel == WaterLevel::Full) {
+				// If the tank is full, it'll likely overflow to the well.
+				// The pump must be started immediately.
+				this->_pumpRelay->Activate();
+				break;
+			}
+
+			// If water level in both the well and the tank is low,
+			// wait for WAIT_TIME before activating the pump to avoid
 			// turning it on frequently for short periods.
 			if (!_waitingToFill) {
 				_waitingToFill = true;
