@@ -2,6 +2,7 @@
 #include "../include/pumpController.h"
 #include "../include/waterSensor.h"
 #include "../include/relay.h"
+#include "../include/log.h"
 
 const unsigned long WAIT_TIME = 60 * 60 * 1000UL; // 60 minutes
 const unsigned long OVEREMPTYING_TIME = 2 * 60 * 1000UL; // 2 minutes
@@ -15,6 +16,12 @@ PumpController::PumpController(WaterSensor* tankWaterSensor, WaterSensor* wellWa
 void PumpController::Step() {
 	WaterLevel tankLevel = _tankWaterSensor->ReadLevel();
 	WaterLevel wellLevel = _wellWaterSensor->ReadLevel();
+
+	logMessage("Tank level:");
+	logMessage(String(static_cast<int>(tankLevel)));
+
+	logMessage("Well level:");
+	logMessage(String(static_cast<int>(wellLevel)));
 
 	switch (wellLevel) {
 		case WaterLevel::Empty:
