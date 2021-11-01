@@ -1,12 +1,12 @@
 #include <arduino.h>
-#include "../include/valveController.h"
+#include "../include/summerValveController.h"
 #include "../include/waterSensor.h"
 #include "../include/relay.h"
 #include "../include/log.h"
 
 const unsigned long OVERFILLING_TIME = 2 * 60 * 1000UL; // 2 minutes
 
-ValveController::ValveController(WaterSensor* tankWaterSensor, WaterSensor* wellWaterSensor, Relay* pumpRelay, Relay* tankValveRelay, Relay* outValveRelay) {
+SummerValveController::SummerValveController(WaterSensor* tankWaterSensor, WaterSensor* wellWaterSensor, Relay* pumpRelay, Relay* tankValveRelay, Relay* outValveRelay) {
 	_tankWaterSensor = tankWaterSensor;
 	_wellWaterSensor = wellWaterSensor;
 	_pumpRelay = pumpRelay;
@@ -14,7 +14,7 @@ ValveController::ValveController(WaterSensor* tankWaterSensor, WaterSensor* well
 	_outValveRelay = outValveRelay;
 }
 
-void ValveController::Step() {
+void SummerValveController::Step() {
 	WaterLevel tankLevel = _tankWaterSensor->ReadLevel();
 	WaterLevel wellLevel = _wellWaterSensor->ReadLevel();
 	bool isPumpRunning = _pumpRelay->IsActive();

@@ -1,5 +1,5 @@
 #include <arduino.h>
-#include "../include/pumpController.h"
+#include "../include/summerPumpController.h"
 #include "../include/waterSensor.h"
 #include "../include/relay.h"
 #include "../include/log.h"
@@ -7,13 +7,13 @@
 const unsigned long WAIT_TIME = 60 * 60 * 1000UL; // 60 minutes
 const unsigned long OVEREMPTYING_TIME = 2 * 60 * 1000UL; // 2 minutes
 
-PumpController::PumpController(WaterSensor* tankWaterSensor, WaterSensor* wellWaterSensor, Relay* pumpRelay) {
+SummerPumpController::SummerPumpController(WaterSensor* tankWaterSensor, WaterSensor* wellWaterSensor, Relay* pumpRelay) {
 	_tankWaterSensor = tankWaterSensor;
 	_wellWaterSensor = wellWaterSensor;
 	_pumpRelay = pumpRelay;
 }
 
-void PumpController::Step() {
+void SummerPumpController::Step() {
 	WaterLevel tankLevel = _tankWaterSensor->ReadLevel();
 	WaterLevel wellLevel = _wellWaterSensor->ReadLevel();
 

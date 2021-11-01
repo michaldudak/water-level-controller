@@ -3,8 +3,10 @@
 #include "include/log.h"
 #include "include/waterSensor.h"
 #include "include/relay.h"
-#include "include/pumpController.h"
-#include "include/valveController.h"
+#include "include/summerPumpController.h"
+#include "include/summerValveController.h"
+#include "include/winterPumpController.h"
+#include "include/winterValveController.h"
 #include "include/safetyGuard.h"
 
 const unsigned int STEP_DELAY = 10 * 1000; // 10 seconds;
@@ -23,8 +25,13 @@ void setup() {
 	Relay* tankValveRelay = new Relay(RELAY_VALVE_TANK);
 	Relay* outValveRelay = new Relay(RELAY_VALVE_OUT);
 
-	pumpController = new PumpController(tankSensor, wellSensor, pumpRelay);
-	valveController = new ValveController(tankSensor, wellSensor, pumpRelay, tankValveRelay, outValveRelay);
+	// pumpController = new SummerPumpController(tankSensor, wellSensor, pumpRelay);
+	// valveController = new SummerValveController(tankSensor, wellSensor, pumpRelay, tankValveRelay, outValveRelay);
+
+	// Winter is coming
+	pumpController = new WinterPumpController(wellSensor, pumpRelay);
+	valveController = new WinterValveController(pumpRelay, outValveRelay);
+
 	safetyGuard = new SafetyGuard(pumpRelay, tankValveRelay, outValveRelay);
 
 	logMessage("Setup complete");
