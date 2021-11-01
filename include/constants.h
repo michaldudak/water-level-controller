@@ -13,8 +13,8 @@
 #define SELECT_MODE_0 8
 #define SELECT_MODE_1 9
 
-#define RELAY_VALVE_TANK A3
-#define RELAY_VALVE_OUT  A4
+#define RELAY_VALVE_OUT  A3
+#define RELAY_VALVE_TANK A4
 #define RELAY_PUMP       A5
 
 #define MODE_OFF  0
